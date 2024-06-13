@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "data": [
     { "id":  1000, "scoreLimit": 0, "scorePerSecond" : 1 },
-    { "id":  1001, "scoreLimit": 20, "scorePerSecond" : 2 },
-    { "id":  1002, "scoreLimit": 40, "scorePerSecond" : 4 },
-    { "id":  1003, "scoreLimit": 80, "scorePerSecond" : 8 },
-    { "id":  1004, "scoreLimit": 160, "scorePerSecond" : 16  },
-    { "id":  1005, "scoreLimit": 320, "scorePerSecond" : 32  },
-    { "id":  1006, "scoreLimit": 640, "scorePerSecond" : 64  }
+    { "id":  1001, "scoreLimit": 100, "scorePerSecond" : 2 },
+    { "id":  1002, "scoreLimit": 300, "scorePerSecond" : 4 },
+    { "id":  1003, "scoreLimit": 900, "scorePerSecond" : 8 },
+    { "id":  1004, "scoreLimit": 2700, "scorePerSecond" : 16  },
+    { "id":  1005, "scoreLimit": 8100, "scorePerSecond" : 32  },
+    { "id":  1006, "scoreLimit": 24300, "scorePerSecond" : 64  }
   ]
 }
