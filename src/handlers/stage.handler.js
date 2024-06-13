@@ -18,12 +18,13 @@ export const moveStageHandler = (userId, payload) => {
     const serverTime = Date.now();
     const elapsedTime = (serverTime - currentStage.timestamp) / 1000;
 
+    const { stages } = getGameAssets();
     // 각 스테이지 마다 체크해야됨
-    if(elapsedTime < 100 || elapsedTime > 105){
-        return {status : 'fail', message: 'Invalid elapsed time'};
+    if(elapsedTime < 9.5 || elapsedTime > 10.5){
+        return {status : 'fail', message: `Invalid elapsed time : ${elapsedTime}`};
     }
 
-    const { stages } = getGameAssets();
+    
     if(!stages.data.some((stage)=>stage.id === payload.targetStage)){
         return {status : 'fail', message: "Taget stage not found"};
     }

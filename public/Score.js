@@ -1,6 +1,9 @@
+import { sendEvent } from './Socket.js'
+
 class Score {
   score = 0;
   HIGH_SCORE_KEY = 'highScore';
+  stageChange = true;
 
   constructor(ctx, scaleRatio) {
     this.ctx = ctx;
@@ -10,6 +13,11 @@ class Score {
 
   update(deltaTime) {
     this.score += deltaTime * 0.001;
+    // 점수가 100점 이상이 될 시 서버에 메세지 전송
+    if (Math.floor(this.score) === 10 && this.stageChange) {
+      this.stageChange = false;
+      sendEvent(11, { currentStage: 1000, targetStage: 1001 });
+    }
   }
 
   getItem(itemId) {
