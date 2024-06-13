@@ -17,7 +17,7 @@ class Score {
 
   setData(){
     this.stageData = JSON.parse(localStorage.getItem("stage"));
-    this.itemData = Json.parse(localStorage.getItem("item"));
+    this.itemData = JSON.parse(localStorage.getItem("item"));
     this.stageChange = this.stageData.map((ele)=>{
       return true;
     })
@@ -26,11 +26,11 @@ class Score {
   
 
   update(deltaTime) {
-    if (this.noStageData){this.setStageData()};
+    if (this.noStageData){this.setData()};
     
     this.score += deltaTime * this.stageData[this.currentStage-999].scorePerSecond * 0.001;
 
-    if (Math.floor(this.score) === this.stageData[this.currentStage-999].scoreLimit && this.stageChange[this.currentStage-999]) {
+    if (Math.floor(this.score) >= this.stageData[this.currentStage-999].scoreLimit && this.stageChange[this.currentStage-999]) {
       this.stageChange[this.currentStage-999] = false;
       sendEvent(11, { currentStage: this.currentStage, targetStage: this.currentStage+1, score: this.getScore() });
       this.currentStage++;
@@ -39,6 +39,7 @@ class Score {
 
   getItem(itemId) {
     this.score += this.itemData[itemId].score;
+    sendEvent(4, { itemId: itemId });
   }
 
   reset() {
