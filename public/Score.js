@@ -3,29 +3,52 @@ import { sendEvent } from './Socket.js'
 class Score {
   score = 0;
   HIGH_SCORE_KEY = 'highScore';
-  stageChange = true;
-
+  stageChange = null;
+  noStageData = true;
+  currentStage = 1000;
+  stageData = null;
+  itemData = null;
+  
   constructor(ctx, scaleRatio) {
     this.ctx = ctx;
     this.canvas = ctx.canvas;
     this.scaleRatio = scaleRatio;
   }
 
+  setData(){
+    this.stageData = JSON.parse(localStorage.getItem("stage"));
+    this.itemData = Json.parse(localStorage.getItem("item"));
+    this.stageChange = this.stageData.map((ele)=>{
+      return true;
+    })
+    this.noStageData=false;
+  }
+  
+
   update(deltaTime) {
-    this.score += deltaTime * 0.001;
-    // 점수가 100점 이상이 될 시 서버에 메세지 전송
-    if (Math.floor(this.score) === 10 && this.stageChange) {
-      this.stageChange = false;
-      sendEvent(11, { currentStage: 1000, targetStage: 1001 });
+    if (this.noStageData){this.setStageData()};
+    
+    this.score += deltaTime * this.stageData[this.currentStage-999].scorePerSecond * 0.001;
+
+    if (Math.floor(this.score) === this.stageData[this.currentStage-999].scoreLimit && this.stageChange[this.currentStage-999]) {
+      this.stageChange[this.currentStage-999] = false;
+      sendEvent(11, { currentStage: this.currentStage, targetStage: this.currentStage+1, score: this.getScore() });
+      this.currentStage++;
     }
   }
 
   getItem(itemId) {
-    this.score += 0;
+    this.score += this.itemData[itemId].score;
   }
 
   reset() {
     this.score = 0;
+    this.currentStage = 1000;
+    if(this.stageChange){
+      this.stageChange = this.stageChange.map((ele)=>{
+        return 1;
+      })
+    }
   }
 
   setHighScore() {
