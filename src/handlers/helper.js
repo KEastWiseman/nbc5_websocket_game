@@ -1,5 +1,6 @@
 import { getGameAssets } from '../init/assets.js';
 import { getUser, removeUser } from '../models/user.model.js';
+
 import handlerMappings from './handlerMapping.js';
 
 export const handleDisconnect = (socket, uuid) => {
@@ -12,9 +13,6 @@ export const handleConnection = (socket, uuid) => {
     console.log(`New user connected! : ${uuid} with socket ID ${socket.id}`);
     console.log('Current users: ', getUsers());
 
-    const { stages } = getGameAssets();
-    setStage(uuid, stages.data[0].id);
-    console.log('Stage: ', getStage(uuid));
 
     socket.emit('connection', {uuid});
 }
