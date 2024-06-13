@@ -1,4 +1,4 @@
-import { moveStageHandler } from "./stage.handler";
+import { moveStageHandler } from "./stage.handler.js";
 import { gameStart, gameEnd } from './game.handler.js'
 
 const handlerMappings = {
