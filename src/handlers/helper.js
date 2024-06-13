@@ -16,8 +16,9 @@ export const handleConnection = (socket, uuid) => {
     console.log('Current users: ', getUser());
 
     createStage(uuid);
+    
 
-    socket.emit('connection', {uuid});
+    socket.emit('connection', {uuid : uuid, data : getGameAssets()});
 }
 
 export const handlerEvent = (io, socket, data) =>{
@@ -33,6 +34,7 @@ export const handlerEvent = (io, socket, data) =>{
     }
 
     const response = handler(data.userId, data.payload);
+    
     if (response.broadcast){
         io.emit('response', 'broadcast');
         return;

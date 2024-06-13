@@ -7,13 +7,22 @@ const socket = io('http://localhost:3000', {
 });
 
 let userId = null;
+
 socket.on('response', (data) => {
   console.log(data);
 });
 
 socket.on('connection', (data) => {
-  console.log('connection: ', data);
+  console.log('connection: ', data.uuid);
   userId = data.uuid;
+  try{
+    const { itemUnlocks, items, stages} = data.data;
+    localStorage.setItem(itemUnlocks.name,JSON.stringify(itemUnlocks.data));
+    localStorage.setItem(items.name,JSON.stringify(items.data));
+    localStorage.setItem(stages.name,JSON.stringify(stages.data));
+  } catch(e){
+    console.log('Invalid init data : ', e);
+  }
 });
 
 const sendEvent = (handlerId, payload) => {

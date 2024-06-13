@@ -20,18 +20,21 @@ export const moveStageHandler = (userId, payload) => {
 
     const { stages } = getGameAssets();
     // 각 스테이지 마다 체크해야됨
-    if(elapsedTime < 9.5 || elapsedTime > 10.5){
-        return {status : 'fail', message: `Invalid elapsed time : ${elapsedTime}`};
-    }
+    // if(elapsedTime < stages.data || elapsedTime > 10.5){
+    //     return {status : 'fail', message: `Invalid elapsed time : ${elapsedTime}`};
+    // }
 
     
     if(!stages.data.some((stage)=>stage.id === payload.targetStage)){
         return {status : 'fail', message: "Taget stage not found"};
     }
 
-    // 현재 유저의 점수가 다음 넘어갈 스테이지의 기준 보다 큰지 검증
+    if(payload.score < stages.data[payload.targetStage-1000].scoreLimit){
+        return {status : 'fail', message: `Invalid user score pass to next stage ${payload.score} : ${stages.data[payload.targetStage-1000].scoreLimit}`};
+    }
+
 
     setStage(userId, payload.targetStage, serverTime);
-
-    return { status : "success"};
+    console.log('Stage: ', getStage(uuid));
+    return { status : "success", message : `Next Stage ${payload.targetStage-999}`};
 }
