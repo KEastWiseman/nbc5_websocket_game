@@ -43,7 +43,7 @@ class Score {
   reset() {
     this.score = 0;
     this.currentStage = 1000;
-    stageChange = [1,1,1,1,1,1,1];
+    this.stageChange = [true,true,true,true,true,true,true];
   }
 
   setHighScore() {
