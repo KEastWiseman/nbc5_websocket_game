@@ -18,16 +18,19 @@ class Score {
   setData(){
     this.stageData = JSON.parse(localStorage.getItem("stage"));
     this.itemData = JSON.parse(localStorage.getItem("item"));
-    this.stageChange = this.stageData.map((ele)=>{
-      return true;
-    })
+    if(this.stageData){
+      this.stageChange = this.stageData.map((ele)=>{
+        return true;
+      })
+    }
     this.noStageData=false;
   }
   
 
   update(deltaTime) {
+
     if (this.noStageData){this.setData()};
-    
+
     this.score += deltaTime * this.stageData[this.currentStage-999].scorePerSecond * 0.001;
 
     if (Math.floor(this.score) >= this.stageData[this.currentStage-999].scoreLimit && this.stageChange[this.currentStage-999]) {

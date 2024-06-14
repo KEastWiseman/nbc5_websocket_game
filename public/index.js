@@ -198,16 +198,17 @@ function gameLoop(currentTime) {
 
   if (!gameover && !waitingToStart) {
     // update
+    score.update(deltaTime);
     // 땅이 움직임
     ground.update(gameSpeed, deltaTime);
     // 선인장
     cactiController.update(gameSpeed, deltaTime);
-    itemController.update(gameSpeed, deltaTime, score.currentStage);
+    itemController.update(gameSpeed, deltaTime, score.getCurrentStage());
     // 달리기
     player.update(gameSpeed, deltaTime);
     updateGameSpeed(deltaTime);
 
-    score.update(deltaTime);
+    
   }
 
   if (!gameover && cactiController.collideWith(player)) {
