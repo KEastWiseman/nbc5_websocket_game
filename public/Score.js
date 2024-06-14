@@ -59,6 +59,10 @@ class Score {
     }
   }
 
+  getCurrentStage(){
+    return this.currentStage;
+  }
+
   getScore() {
     return this.score;
   }
