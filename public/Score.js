@@ -18,6 +18,11 @@ class Score {
   setData(){
     this.stageData = JSON.parse(localStorage.getItem("stage"));
     this.itemData = JSON.parse(localStorage.getItem("item"));
+    if(this.stageData){
+      this.stageChange = this.stageData.map((ele)=>{
+        return true;
+      })
+    }
     this.noStageData=false;
   }
   
@@ -43,7 +48,11 @@ class Score {
   reset() {
     this.score = 0;
     this.currentStage = 1000;
-    this.stageChange = [true,true,true,true,true,true,true];
+    if(this.stageChange){
+      this.stageChange = this.stageChange.map((ele)=>{
+        return 1;
+      })
+    }
   }
 
   setHighScore() {
