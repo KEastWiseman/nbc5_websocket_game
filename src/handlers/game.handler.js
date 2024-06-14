@@ -1,16 +1,22 @@
+import { getGameAssets } from "../init/assets.js";
+import { setStage, getStage } from "../models/stage.model.js";
+import { clearStage } from "../models/stage.model.js";
+import { clearItem } from "../models/item.model.js";
+
 export const gameStart = (uuid, payload) =>{
 
     const { stages } = getGameAssets();
+    clearStage(uuid);
+    clearItem(uuid);
     setStage(uuid, stages.data[0].id, payload.timestamp);
     console.log('Stage: ', getStage(uuid));
-
-
     return {status: 'success'};
 }
 
 export const gameEnd = (uuid, payload) =>{
     const { timestamp:gameEndTime, score } = payload;
     const stages = getStage(uuid);
+    const {stages:stagesAsset} = getGameAssets();
 
     if(!stages.length) {
         return { status : 'fail', message : 'No Stages found for user'};
@@ -26,7 +32,7 @@ export const gameEnd = (uuid, payload) =>{
             stageEndTime = stages[index + 1].timestamp;
         }
 
-        const stageDuration = (stageEndTime - stage.timestamp) / 1000;
+        const stageDuration = (stageEndTime - stage.timestamp) / 1000 * stagesAsset.data[index].scorePerSecond;
         totalScore += stageDuration;
     })
 

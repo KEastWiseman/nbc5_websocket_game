@@ -1,5 +1,9 @@
 import { getGameAssets } from '../init/assets.js';
+import { CLIENT_VERSION } from '../../public/Constants.js';
 import { getUser, removeUser } from '../models/user.model.js';
+import { createStage } from '../models/stage.model.js';
+import {createItem} from '../models/item.model.js';
+
 import handlerMappings from './handlerMapping.js';
 
 export const handleDisconnect = (socket, uuid) => {
@@ -10,13 +14,12 @@ export const handleDisconnect = (socket, uuid) => {
 
 export const handleConnection = (socket, uuid) => {
     console.log(`New user connected! : ${uuid} with socket ID ${socket.id}`);
-    console.log('Current users: ', getUsers());
+    console.log('Current users: ', getUser());
 
-    const { stages } = getGameAssets();
-    setStage(uuid, stages.data[0].id);
-    console.log('Stage: ', getStage(uuid));
+    createStage(uuid);
+    createItem(uuid);
 
-    socket.emit('connection', {uuid});
+    socket.emit('connection', {uuid : uuid, data : getGameAssets()});
 }
 
 export const handlerEvent = (io, socket, data) =>{
@@ -32,6 +35,7 @@ export const handlerEvent = (io, socket, data) =>{
     }
 
     const response = handler(data.userId, data.payload);
+    
     if (response.broadcast){
         io.emit('response', 'broadcast');
         return;

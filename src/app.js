@@ -10,6 +10,7 @@ const PORT = 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static('public'));
 initSocket(server);
 
 app.get('/', (req, res) => { // 테스트를 위한 API 생성
